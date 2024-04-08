@@ -11,8 +11,8 @@ export default new DataSource({
   port: configService.getOrThrow('DB_PORT'),
   database: configService.getOrThrow('DB_NAME'),
   schema: configService.getOrThrow('DB_SCHEMA'),
-  username: configService.getOrThrow('DB_USERNAME'),
+  username: configService.getOrThrow('DB_USER'),
   password: configService.getOrThrow('DB_PASSWORD'),
-  migrations: ['migrations/**'],
-  entities: [],
+  migrations: ['src/database/migrations/**'],
+  entities: ['src/**.entity.ts'],
 });
