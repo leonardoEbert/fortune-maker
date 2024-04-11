@@ -6,10 +6,10 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BaseEntity } from 'typeorm';
+import { AbstractEntity } from '@/database/abstract.entity';
 
 @Entity({ name: 'user' })
-export class UserEntity extends BaseEntity {
+export class User extends AbstractEntity<User> {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
