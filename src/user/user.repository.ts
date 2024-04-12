@@ -22,8 +22,9 @@ export class UserRepository {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  async create(user: User): Promise<User> {
-    return await this.userRepository.save(user);
+  async create(user: User): Promise<void> {
+    const insertResult = await this.userRepository.insert(user);
+    console.log(insertResult)
   }
 
   async update(
