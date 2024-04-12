@@ -22,7 +22,7 @@ export class UserService {
     const newUser = new User({ ...createUserDto });
 
     newUser.password = await bcrypt.hash(createUserDto.password, saltOrRounds);
-    newUser.isActive = true
+    newUser.isActive = true;
     await this.userRepository.save(newUser);
   }
 }
