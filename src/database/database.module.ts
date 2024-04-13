@@ -17,7 +17,7 @@ import { User } from '@/user/user.entity';
         autoLoadEntities: true,
         entities: [User],
         synchronize: configService.getOrThrow('DB_SYNCHRONIZE'),
-        logging: ["query", "error"]
+        logging: ['query', 'error'],
       }),
       inject: [ConfigService],
     }),
