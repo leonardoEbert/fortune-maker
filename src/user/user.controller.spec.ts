@@ -5,6 +5,13 @@ import { UserService } from '@/user/user.service';
 describe('UserController', () => {
   let controller: UserController;
 
+  const userDtoMock = {
+    firstName: 'Test',
+    lastName: 'User',
+    email: 'test@test.com',
+    password: 'testUser',
+  };
+
   const mockUserService = {
     create: jest.fn((dto) => {
       const createdUser = {
@@ -20,6 +27,12 @@ describe('UserController', () => {
       id,
       ...dto,
     })),
+    remove: jest.fn().mockImplementation((id) => ({
+      id,
+      ...userDtoMock,
+    })),
+    findAll: jest.fn().mockImplementation(() => [userDtoMock]),
+    findOneById: jest.fn().mockImplementation((id) => ({ id, ...userDtoMock })),
   };
 
   beforeEach(async () => {
@@ -39,37 +52,49 @@ describe('UserController', () => {
   });
 
   it('should create a user', () => {
-    const dto = {
-      firstName: 'Test',
-      lastName: 'User',
-      email: 'test@test.com',
-      password: 'testUser',
-    };
-    expect(controller.create(dto)).toEqual({
+    expect(controller.create(userDtoMock)).toEqual({
       id: expect.any(String),
-      firstName: dto.firstName,
-      lastName: dto.lastName,
-      email: dto.email,
+      firstName: userDtoMock.firstName,
+      lastName: userDtoMock.lastName,
+      email: userDtoMock.email,
     });
 
     expect(mockUserService.create).toHaveBeenCalled();
-    expect(mockUserService.create).toHaveBeenCalledWith(dto);
+    expect(mockUserService.create).toHaveBeenCalledWith(userDtoMock);
   });
 
   it('should update a user', () => {
-    const dto = {
-      firstName: 'Test',
-      lastName: 'User',
-      email: 'test@test.com',
-      password: 'testUser',
-    };
-
-    expect(controller.update('uuidv4', dto)).toEqual({
+    expect(controller.update('uuidv4', userDtoMock)).toEqual({
       id: expect.any(String),
-      ...dto,
+      ...userDtoMock,
     });
 
     expect(mockUserService.update).toHaveBeenCalled();
-    expect(mockUserService.update).toHaveBeenCalledWith('uuidv4', dto);
+    expect(mockUserService.update).toHaveBeenCalledWith('uuidv4', userDtoMock);
+  });
+
+  it('should delete a user', () => {
+    expect(controller.remove('uuidv4')).toEqual({
+      id: expect.any(String),
+      ...userDtoMock,
+    });
+
+    expect(mockUserService.remove).toHaveBeenCalled();
+    expect(mockUserService.remove).toHaveBeenCalledWith('uuidv4');
+  });
+
+  it('should get a list of all users', () => {
+    expect(controller.findAll()).toBeInstanceOf(Array);
+    expect(mockUserService.findAll).toHaveBeenCalled();
+  });
+
+  it('should get an user by id', () => {
+    expect(controller.findOne('uuidv4')).toEqual({
+      id: expect.any(String),
+      ...userDtoMock,
+    });
+
+    expect(mockUserService.findOneById).toHaveBeenCalled();
+    expect(mockUserService.findOneById).toHaveBeenCalledWith('uuidv4');
   });
 });
