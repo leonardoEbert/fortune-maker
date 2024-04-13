@@ -40,7 +40,11 @@ export class UserService {
 
     newUser.password = await bcrypt.hash(createUserDto.password, saltOrRounds);
     newUser.isActive = true;
-    return await this.userRepository.save(newUser);
+    const savedUser = await this.userRepository.save(newUser);
+
+    delete savedUser.password;
+
+    return savedUser;
   }
 
   async findAll(): Promise<User[]> {
