@@ -81,6 +81,16 @@
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/$1"
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "test-config",
+      "interfaces",
+      ".module.ts",
+      "<rootDir>/main.ts",
+      ".mock.ts",
+      "<rootDir>/database",
+      ".entity.ts"
+    ]
   }
 }
