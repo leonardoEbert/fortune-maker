@@ -37,6 +37,7 @@ describe('UserService', () => {
     find: jest
       .fn()
       .mockImplementation(() => Promise.resolve([new User(databaseUserMock), new User(databaseUserMock)])),
+    softDelete: jest.fn().mockImplementation((_id) => Promise.resolve(new User(databaseUserMock))),
   };
 
   beforeEach(async () => {
@@ -148,7 +149,7 @@ describe('UserService', () => {
     expect.assertions(2);
   });
 
-  it('should query all users and return a list', async() => {
+  it('should query all users and return a list', async () => {
     const userList = await service.findAll();
 
     expect(userList).toBeInstanceOf(Array);
@@ -177,5 +178,13 @@ describe('UserService', () => {
     expect(updatedUser.password).not.toEqual(dataToUpdate.password);
     expect(updatedUser.firstName).not.toEqual(dataToUpdate.firstName);
     expect(updatedUser.lastName).not.toEqual(dataToUpdate.lastName);
+  });
+
+  it('should delete a user successfully', async () => {
+    const deletedUser = await service.remove('1234');
+
+    expect(deletedUser).toBeInstanceOf(User);
+    expect(deletedUser).toEqual(new User(databaseUserMock));
+    expect(mockUserRepository.softDelete).toHaveBeenCalled();
   });
 });
