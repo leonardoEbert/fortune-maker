@@ -31,7 +31,7 @@ describe('UserService', () => {
       .fn()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .mockImplementation((_email) =>
-        Promise.resolve({ id: 'uuidv4', ...databaseUserMock }),
+        Promise.resolve(new User(databaseUserMock)),
       ),
     find: jest
       .fn()
@@ -153,5 +153,12 @@ describe('UserService', () => {
     expect(userList).toBeInstanceOf(Array);
     expect(userList[0]).toBeInstanceOf(User);
     expect(userList[0]).toEqual(new User(databaseUserMock));
+  });
+
+  it('should find a user by id and return it', async () => {
+    const foundUser = await service.findOneById('1234');
+
+    expect(foundUser).toBeInstanceOf(User);
+    expect(foundUser).toEqual(new User(databaseUserMock));
   });
 });
