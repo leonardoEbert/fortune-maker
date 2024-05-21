@@ -102,4 +102,45 @@ describe('UserService', () => {
     expect(userFound).toEqual(databaseUserMock);
     expect(mockUserRepository.findOne).toHaveBeenCalled();
   });
+
+  it('should sign up an user successfully', async () => {
+    const dto = {
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'test@test.com',
+      isActive: true,
+      password: '1234'
+    };
+
+    jest
+      .spyOn(service, 'findOne')
+      .mockImplementation(() => Promise.resolve(undefined));
+
+    await service.signUp(dto)
+
+    expect(mockUserRepository.save).toHaveBeenCalled();
+  });
+
+  it('should not sign up an user and should throw error', async () => {
+    const dto = {
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'test@test.com',
+      isActive: true,
+      password: '1234'
+    };
+
+    jest
+      .spyOn(service, 'findOne')
+      .mockImplementation(() => Promise.resolve(databaseUserMock));
+
+    try {
+      await service.signUp(dto)
+    } catch (e) {
+      expect(e).toBeInstanceOf(BadRequestException);
+      expect(e.message).toBe('User already exists');
+    }
+
+    expect.assertions(2);
+  });
 });
