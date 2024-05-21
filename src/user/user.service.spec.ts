@@ -33,6 +33,9 @@ describe('UserService', () => {
       .mockImplementation((_email) =>
         Promise.resolve({ id: 'uuidv4', ...databaseUserMock }),
       ),
+    find: jest
+      .fn()
+      .mockImplementation(() => Promise.resolve([new User(databaseUserMock), new User(databaseUserMock)])),
   };
 
   beforeEach(async () => {
@@ -142,5 +145,13 @@ describe('UserService', () => {
     }
 
     expect.assertions(2);
+  });
+
+  it('should query all users and return a list', async() => {
+    const userList = await service.findAll();
+
+    expect(userList).toBeInstanceOf(Array);
+    expect(userList[0]).toBeInstanceOf(User);
+    expect(userList[0]).toEqual(new User(databaseUserMock));
   });
 });
