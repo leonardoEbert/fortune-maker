@@ -9,10 +9,14 @@ import { AuthGuard } from '@/auth/auth.guard';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, ConfigService,  {
-    provide: APP_GUARD,
-    useClass: AuthGuard,
-  }],
+  providers: [
+    AuthService,
+    ConfigService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
   imports: [
     UserModule,
     JwtModule.registerAsync({

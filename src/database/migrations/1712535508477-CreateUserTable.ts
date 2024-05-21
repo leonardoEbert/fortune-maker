@@ -13,7 +13,6 @@ export class CreateUserTable1712535508477 implements MigrationInterface {
             generationStrategy: 'uuid',
             isGenerated: true,
             isPrimary: true,
-
           },
           {
             name: 'first_name',
@@ -42,29 +41,30 @@ export class CreateUserTable1712535508477 implements MigrationInterface {
           {
             name: 'is_active',
             type: 'boolean',
-            default: false
+            default: false,
           },
           {
             name: 'created_at',
             type: 'timestamp',
-            default: 'now()'
+            default: 'now()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            default: 'now()'
+            default: 'now()',
           },
           {
             name: 'deleted_at',
             type: 'timestamp',
-            isNullable: true
-          }
+            isNullable: true,
+          },
         ],
-      }), true
-    )
+      }),
+      true,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user')
+    await queryRunner.dropTable('user');
   }
 }
