@@ -27,7 +27,7 @@ describe('UserService', () => {
     create: jest.fn().mockImplementation((dto) => dto),
     save: jest
       .fn()
-      .mockImplementation((user) => Promise.resolve(new User(databaseUserMock))),
+      .mockImplementation((_user) => Promise.resolve(new User(databaseUserMock))),
     findOne: jest
       .fn()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
