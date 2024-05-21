@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '@/user/user.entity';
 import { BadRequestException } from '@nestjs/common';
+import { UpdateUserDto } from '@/user/dto/update-user.dto';
 
 describe('UserService', () => {
   let service: UserService;
@@ -26,7 +27,7 @@ describe('UserService', () => {
     create: jest.fn().mockImplementation((dto) => dto),
     save: jest
       .fn()
-      .mockImplementation((user) => Promise.resolve({ id: 'uuidv4', ...user })),
+      .mockImplementation((user) => Promise.resolve(new User(databaseUserMock))),
     findOne: jest
       .fn()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -160,5 +161,21 @@ describe('UserService', () => {
 
     expect(foundUser).toBeInstanceOf(User);
     expect(foundUser).toEqual(new User(databaseUserMock));
+  });
+
+  it('should update a user', async () => {
+    const userId = '1234';
+    const dataToUpdate: UpdateUserDto = {
+      firstName: 'Updatedname',
+      lastName: 'Updated Lastname',
+      password: '1234'
+    };
+
+    const updatedUser = await service.update(userId, dataToUpdate);
+
+    expect(updatedUser).toBeInstanceOf(User);
+    expect(updatedUser.password).not.toEqual(dataToUpdate.password);
+    expect(updatedUser.firstName).not.toEqual(dataToUpdate.firstName);
+    expect(updatedUser.lastName).not.toEqual(dataToUpdate.lastName);
   });
 });
