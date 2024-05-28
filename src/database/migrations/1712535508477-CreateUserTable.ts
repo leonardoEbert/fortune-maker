@@ -8,8 +8,7 @@ export class CreateUserTable1712535508477 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
-            length: '36',
+            type: 'uuid',
             generationStrategy: 'uuid',
             default: 'gen_random_uuid()',
             isPrimary: true,

@@ -8,8 +8,7 @@ export class CreateAuthObjectTable1716558075445 implements MigrationInterface {
       columns: [
         {
           name: 'id',
-          type: 'varchar',
-          length: '36',
+          type: 'uuid',
           generationStrategy: 'uuid',
           default: 'gen_random_uuid()',
           isPrimary: true,
