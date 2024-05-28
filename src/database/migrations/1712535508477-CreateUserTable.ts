@@ -11,7 +11,7 @@ export class CreateUserTable1712535508477 implements MigrationInterface {
             type: 'varchar',
             length: '36',
             generationStrategy: 'uuid',
-            isGenerated: true,
+            default: 'gen_random_uuid()',
             isPrimary: true,
           },
           {
@@ -65,6 +65,6 @@ export class CreateUserTable1712535508477 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('user', true);
   }
 }
