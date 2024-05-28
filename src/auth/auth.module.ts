@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@/auth/auth.guard';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   controllers: [AuthController],
@@ -30,6 +31,7 @@ import { AuthGuard } from '@/auth/auth.guard';
       }),
       inject: [ConfigService],
     }),
+    CaslModule,
   ],
 })
 export class AuthModule {}
