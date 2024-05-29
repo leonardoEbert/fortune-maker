@@ -2,12 +2,12 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  OneToMany,
+  Entity, ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { AuthRolePermission } from '@/auth/casl/entities/auth-role-permission.entity';
+import { AuthPermission } from '@/auth/casl/entities/auth-permission.entity';
+import { JoinTable } from 'typeorm/browser';
 
 
 @Entity({ name: 'auth_role' })
@@ -38,6 +38,17 @@ export class AuthRole {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => AuthRolePermission, rolePermission => rolePermission.role)
-  rolePermissions: AuthRolePermission[];
+  @ManyToMany(() => AuthPermission, permission => permission.roles)
+  @JoinTable({
+    name: 'auth_role_permissions',
+    joinColumn: {
+      name: 'role_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'permission_id',
+      referencedColumnName: 'id'
+    }
+  })
+  permissions: AuthPermission[];
 }

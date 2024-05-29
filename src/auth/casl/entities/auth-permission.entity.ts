@@ -2,13 +2,13 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  ManyToOne, OneToMany,
+  Entity, ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { AuthObject } from '@/auth/casl/entities/auth-object.entity';
-import { AuthRolePermission } from '@/auth/casl/entities/auth-role-permission.entity';
+import { AuthRole } from '@/auth/casl/entities/auth-role.entity';
 
 @Entity('auth_permission')
 export class AuthPermission {
@@ -25,8 +25,8 @@ export class AuthPermission {
   @ManyToOne(() => AuthObject, (authObject) => authObject.authPermissions)
   authObject: AuthObject;
 
-  @OneToMany(() => AuthRolePermission, rolePermission => rolePermission.permission)
-  rolePermissions: AuthRolePermission[];
+  @ManyToMany(() => AuthRole, role => role.permissions)
+  roles: AuthRole[];
 
   @Column({
     type: 'json',
