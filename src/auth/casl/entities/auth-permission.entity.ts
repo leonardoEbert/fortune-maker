@@ -2,7 +2,8 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany,
+  Entity,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -25,7 +26,7 @@ export class AuthPermission {
   @ManyToOne(() => AuthObject, (authObject) => authObject.authPermissions)
   authObject: AuthObject;
 
-  @ManyToMany(() => AuthRole, role => role.permissions)
+  @ManyToMany(() => AuthRole, (role) => role.permissions)
   roles: AuthRole[];
 
   @Column({

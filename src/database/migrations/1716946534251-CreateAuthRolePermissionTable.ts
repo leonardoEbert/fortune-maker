@@ -1,7 +1,13 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class CreateAuthRolePermissionTable1716946534251 implements MigrationInterface {
-
+export class CreateAuthRolePermissionTable1716946534251
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -23,10 +29,10 @@ export class CreateAuthRolePermissionTable1716946534251 implements MigrationInte
             name: 'permission_id',
             type: 'uuid',
             isNullable: false,
-          }
-        ]
+          },
+        ],
       }),
-      true
+      true,
     );
 
     await queryRunner.createForeignKey(
@@ -53,5 +59,4 @@ export class CreateAuthRolePermissionTable1716946534251 implements MigrationInte
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('auth_role_permission', true);
   }
-
 }

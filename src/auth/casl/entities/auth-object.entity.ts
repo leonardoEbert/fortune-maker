@@ -35,6 +35,9 @@ export class AuthObject {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => AuthPermission, (authPermission) => authPermission.authObject)
+  @OneToMany(
+    () => AuthPermission,
+    (authPermission) => authPermission.authObject,
+  )
   authPermissions: AuthPermission[];
 }

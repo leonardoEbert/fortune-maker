@@ -1,7 +1,13 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class CreateAuthPermissionTable1716560889945 implements MigrationInterface {
-
+export class CreateAuthPermissionTable1716560889945
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -18,13 +24,13 @@ export class CreateAuthPermissionTable1716560889945 implements MigrationInterfac
             name: 'action',
             type: 'varchar',
             length: '10',
-            isNullable: false
+            isNullable: false,
           },
           {
             name: 'object_id',
             type: 'uuid',
             isNullable: false,
-            generationStrategy: 'uuid'
+            generationStrategy: 'uuid',
           },
           {
             name: 'condition',
@@ -50,9 +56,9 @@ export class CreateAuthPermissionTable1716560889945 implements MigrationInterfac
             name: 'deleted_at',
             type: 'timestamp',
             isNullable: true,
-          }
-        ]
-      })
+          },
+        ],
+      }),
     );
     await queryRunner.createForeignKey(
       'auth_permission',
@@ -60,16 +66,17 @@ export class CreateAuthPermissionTable1716560889945 implements MigrationInterfac
         columnNames: ['object_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'auth_object',
-        onDelete: 'CASCADE'
-      })
+        onDelete: 'CASCADE',
+      }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const table = await queryRunner.getTable('auth_permission');
-    const foreignKey = table.foreignKeys.find(fk => fk.columnNames.indexOf('object_id') !== -1);
+    const foreignKey = table.foreignKeys.find(
+      (fk) => fk.columnNames.indexOf('object_id') !== -1,
+    );
     await queryRunner.dropForeignKey('auth_permission', foreignKey);
     await queryRunner.dropTable('auth_permission', true);
   }
-
 }
