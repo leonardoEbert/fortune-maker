@@ -2,12 +2,14 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { AuthPermission } from '@/auth/casl/entities/auth-permission.entity';
 
+@Entity('auth_object')
 export class AuthObject {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -3,13 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { AuthPermission } from '@/auth/casl/entities/auth-permission.entity';
-import { JoinTable } from 'typeorm/browser';
 import { User } from '@/user/user.entity';
 
 @Entity({ name: 'auth_role' })

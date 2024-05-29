@@ -6,10 +6,10 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { AbstractEntity } from '@/database/abstract.entity';
 import { AuthRole } from '@/auth/casl/entities/auth-role.entity';
-import { JoinColumn } from 'typeorm/browser';
 
 @Entity({ name: 'user' })
 export class User extends AbstractEntity<User> {
