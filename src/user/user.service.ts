@@ -77,4 +77,13 @@ export class UserService {
 
     return existingUser;
   }
+
+  async findAllPermissions(user: User) {
+    const userPermissions = await this.userRepository.findOne({
+      where: { id: user.id },
+      relations: ['role', 'role.permissions'],
+    });
+
+    return userPermissions.role.permissions;
+  }
 }
