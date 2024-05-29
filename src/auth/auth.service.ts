@@ -2,6 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '@/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@/user/user.entity';
+import { AuthPermission } from '@/auth/casl/entities/auth-permission.entity';
 
 @Injectable()
 export class AuthService {
@@ -25,5 +27,9 @@ export class AuthService {
 
   async checkPassword(password: string, hash: string): Promise<boolean> {
     return await bcrypt.compare(password, hash);
+  }
+
+  async findAllPermissionsOfUser(user: User): Promise<AuthPermission[]> {
+    return await this.userService.findAllPermissions(user);
   }
 }

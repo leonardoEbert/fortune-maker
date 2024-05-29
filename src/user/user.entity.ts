@@ -5,8 +5,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { AbstractEntity } from '@/database/abstract.entity';
+import { AuthRole } from '@/auth/casl/entities/auth-role.entity';
+import { JoinColumn } from 'typeorm/browser';
 
 @Entity({ name: 'user' })
 export class User extends AbstractEntity<User> {
@@ -42,6 +45,10 @@ export class User extends AbstractEntity<User> {
     nullable: false,
   })
   password: string;
+
+  @ManyToOne(() => AuthRole, (role) => role.users)
+  @JoinColumn({ name: 'role_id' })
+  role: AuthRole;
 
   @Column({
     type: 'boolean',
