@@ -21,13 +21,15 @@ describe('UserService', () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     deletedAt: new Date(),
-  }
+  };
 
   const mockUserRepository = {
     create: jest.fn().mockImplementation((dto) => dto),
     save: jest
       .fn()
-      .mockImplementation((_user) => Promise.resolve(new User(databaseUserMock))),
+      .mockImplementation((_user) =>
+        Promise.resolve(new User(databaseUserMock)),
+      ),
     findOne: jest
       .fn()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,8 +38,15 @@ describe('UserService', () => {
       ),
     find: jest
       .fn()
-      .mockImplementation(() => Promise.resolve([new User(databaseUserMock), new User(databaseUserMock)])),
-    softDelete: jest.fn().mockImplementation((_id) => Promise.resolve(new User(databaseUserMock))),
+      .mockImplementation(() =>
+        Promise.resolve([
+          new User(databaseUserMock),
+          new User(databaseUserMock),
+        ]),
+      ),
+    softDelete: jest
+      .fn()
+      .mockImplementation((_id) => Promise.resolve(new User(databaseUserMock))),
   };
 
   beforeEach(async () => {
@@ -101,7 +110,7 @@ describe('UserService', () => {
     expect.assertions(2);
   });
 
-  it('should search user by key',  async() => {
+  it('should search user by key', async () => {
     const userFound = await service.findOne('test@test.com');
 
     expect(userFound).toEqual(databaseUserMock);
@@ -114,14 +123,14 @@ describe('UserService', () => {
       lastName: 'User',
       email: 'test@test.com',
       isActive: true,
-      password: '1234'
+      password: '1234',
     };
 
     jest
       .spyOn(service, 'findOne')
       .mockImplementation(() => Promise.resolve(undefined));
 
-    await service.signUp(dto)
+    await service.signUp(dto);
 
     expect(mockUserRepository.save).toHaveBeenCalled();
   });
@@ -132,7 +141,7 @@ describe('UserService', () => {
       lastName: 'User',
       email: 'test@test.com',
       isActive: true,
-      password: '1234'
+      password: '1234',
     };
 
     jest
@@ -140,7 +149,7 @@ describe('UserService', () => {
       .mockImplementation(() => Promise.resolve(databaseUserMock));
 
     try {
-      await service.signUp(dto)
+      await service.signUp(dto);
     } catch (e) {
       expect(e).toBeInstanceOf(BadRequestException);
       expect(e.message).toBe('User already exists');
@@ -169,7 +178,7 @@ describe('UserService', () => {
     const dataToUpdate: UpdateUserDto = {
       firstName: 'Updatedname',
       lastName: 'Updated Lastname',
-      password: '1234'
+      password: '1234',
     };
 
     const updatedUser = await service.update(userId, dataToUpdate);
