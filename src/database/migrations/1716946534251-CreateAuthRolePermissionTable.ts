@@ -1,5 +1,4 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
-import { query } from 'express';
 
 export class CreateAuthRolePermissionTable1716946534251 implements MigrationInterface {
 
