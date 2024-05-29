@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { AuthObject } from '@/auth/casl/entities/auth-object.entity';
 import { AuthRole } from '@/auth/casl/entities/auth-role.entity';
+import { PermissionActionEnum } from '@/common/enum/permission-action.enum';
 
 @Entity('auth_permission')
 export class AuthPermission {
@@ -21,7 +22,7 @@ export class AuthPermission {
     length: 10,
     nullable: false,
   })
-  action: string;
+  action: PermissionActionEnum;
 
   @ManyToOne(() => AuthObject, (authObject) => authObject.authPermissions)
   authObject: AuthObject;
