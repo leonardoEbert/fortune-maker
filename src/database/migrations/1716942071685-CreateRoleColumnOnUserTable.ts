@@ -1,5 +1,4 @@
 import { MigrationInterface, QueryRunner, TableColumn, TableForeignKey } from 'typeorm';
-import { query } from 'express';
 
 export class CreateRoleColumnOnUserTable1716942071685 implements MigrationInterface {
 
