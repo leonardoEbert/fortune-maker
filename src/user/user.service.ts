@@ -18,7 +18,8 @@ export class UserService {
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<void> {
-    if ((await this.findOne(createUserDto.email)) !== undefined) {
+    const existingUser = await this.findOne(createUserDto.email);
+    if (existingUser) {
       throw new BadRequestException('User already exists');
     }
     const saltOrRounds = 10;
