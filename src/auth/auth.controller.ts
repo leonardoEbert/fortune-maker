@@ -41,4 +41,11 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('/check-token')
+  checkToken(@Request() req) {
+    return this.authService.checkToken(req);
+  }
 }
