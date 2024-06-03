@@ -4,12 +4,15 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@/user/user.entity';
 import { AuthPermission } from '@/auth/casl/entities/auth-permission.entity';
+import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async signIn(email: string, password: string) {
@@ -20,8 +23,13 @@ export class AuthService {
     }
 
     const payload = { sub: user.id, email: user.email };
+
+    const accessToken = await this.jwtService.signAsync(payload);
+    const expirationTimestamp = await this.jwtService.decode(accessToken);
+
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken,
+      expiresAt: expirationTimestamp.exp,
     };
   }
 
@@ -31,5 +39,18 @@ export class AuthService {
 
   async findAllPermissionsOfUser(user: User): Promise<AuthPermission[]> {
     return await this.userService.findAllPermissions(user);
+  }
+
+  checkToken(request: Request): boolean {
+    const token = request.body.token;
+    const validToken = this.jwtService.verify(token, {
+      secret: this.configService.getOrThrow('JWT_SECRET_KEY'),
+    });
+
+    if (!!validToken) {
+      return true;
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 }
