@@ -23,8 +23,13 @@ export class AuthService {
     }
 
     const payload = { sub: user.id, email: user.email };
+
+    const accessToken = await this.jwtService.signAsync(payload);
+    const expirationTimestamp = await this.jwtService.decode(accessToken);
+
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken,
+      expiresAt: expirationTimestamp.exp,
     };
   }
 
