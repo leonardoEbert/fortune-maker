@@ -2,22 +2,18 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
-  JoinTable,
+  ManyToOne,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
-import { VendorClassification } from '@/vendor/classification/entities/vendor-classification.entity';
+import { AbstractEntity } from '@/database/abstract.entity';
 
-@Entity()
-export class Vendor {
+@Entity('vendor_classification')
+export class VendorClassification extends AbstractEntity<VendorClassification> {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToMany(() => VendorClassification)
-  @JoinTable()
-  classifications: VendorClassification[];
 
   @Column({
     type: 'varchar',
@@ -32,6 +28,18 @@ export class Vendor {
     nullable: true,
   })
   description: string;
+
+  @ManyToOne(
+    () => VendorClassification,
+    (classification) => classification.subClassifications,
+  )
+  parentClassification: VendorClassification;
+
+  @OneToMany(
+    () => VendorClassification,
+    (classification) => classification.parentClassification,
+  )
+  subClassifications: VendorClassification[];
 
   @Column({
     type: 'boolean',
