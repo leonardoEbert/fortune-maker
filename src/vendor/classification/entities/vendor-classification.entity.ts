@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { AbstractEntity } from '@/database/abstract.entity';
 
@@ -32,12 +33,15 @@ export class VendorClassification extends AbstractEntity<VendorClassification> {
   @ManyToOne(
     () => VendorClassification,
     (classification) => classification.subClassifications,
+    { nullable: true },
   )
+  @JoinColumn({ name: 'parent_classification_id' })
   parentClassification: VendorClassification;
 
   @OneToMany(
     () => VendorClassification,
     (classification) => classification.parentClassification,
+    { nullable: true },
   )
   subClassifications: VendorClassification[];
 
