@@ -12,8 +12,19 @@ export class ClassificationService {
     private readonly vendorClassificationRepository: Repository<VendorClassification>,
   ) {}
 
-  create(createClassificationDto: CreateClassificationDto) {
-    return 'This action adds a new classification';
+  async create(createClassificationDto: CreateClassificationDto) {
+    const newVendorClassification = new VendorClassification({
+      ...createClassificationDto,
+    });
+
+    newVendorClassification.parentClassification =
+      await this.vendorClassificationRepository.findOne({
+        where: { id: createClassificationDto.parentClassificationId },
+      });
+
+    return await this.vendorClassificationRepository.save(
+      newVendorClassification,
+    );
   }
 
   findAll() {
