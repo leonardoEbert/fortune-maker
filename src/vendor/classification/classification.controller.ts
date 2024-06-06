@@ -41,7 +41,7 @@ export class ClassificationController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.classificationService.remove(+id);
+    return this.classificationService.remove(id);
   }
 
   @Get('paginated')

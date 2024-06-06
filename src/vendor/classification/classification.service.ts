@@ -40,8 +40,8 @@ export class ClassificationService {
     return `This action updates a #${id} classification`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} classification`;
+  remove(id: string) {
+    return this.vendorClassificationRepository.softDelete(id);
   }
 
   async getByPage(page: number, pageSize: number) {
