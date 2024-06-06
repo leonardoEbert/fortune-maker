@@ -42,4 +42,10 @@ export class ClassificationController {
   remove(@Param('id') id: string) {
     return this.classificationService.remove(+id);
   }
+
+  @Get('count')
+  count() {
+    return this.classificationService.count();
+  }
+
 }

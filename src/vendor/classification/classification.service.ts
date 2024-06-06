@@ -42,4 +42,10 @@ export class ClassificationService {
   remove(id: number) {
     return `This action removes a #${id} classification`;
   }
+
+  count() {
+    return this.vendorClassificationRepository.count({
+      where: { isActive: true, deletedAt: null },
+    });
+  }
 }
