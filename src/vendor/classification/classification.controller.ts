@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ClassificationService } from './classification.service';
 import { CreateClassificationDto } from './dto/create-classification.dto';
@@ -48,4 +49,12 @@ export class ClassificationController {
     return this.classificationService.count();
   }
 
+  @Get('paginated')
+  paginated(
+    @Query('currentPage') page: number,
+    @Query('pageSize') pageSize: number,
+  ) {
+    console.log(page);
+    console.log(pageSize);
+  }
 }
