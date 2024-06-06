@@ -36,7 +36,7 @@ export class ClassificationController {
     @Param('id') id: string,
     @Body() updateClassificationDto: UpdateClassificationDto,
   ) {
-    return this.classificationService.update(+id, updateClassificationDto);
+    return this.classificationService.update(id, updateClassificationDto);
   }
 
   @Delete(':id')

@@ -20,7 +20,7 @@ export class ClassificationService {
 
     newVendorClassification.parentClassification =
       await this.vendorClassificationRepository.findOne({
-        where: { id: createClassificationDto.parentClassificationId },
+        where: { id: createClassificationDto.parentClassification.id },
       });
 
     return await this.vendorClassificationRepository.save(
@@ -36,8 +36,11 @@ export class ClassificationService {
     return `This action returns a #${id} classification`;
   }
 
-  update(id: number, updateClassificationDto: UpdateClassificationDto) {
-    return `This action updates a #${id} classification`;
+  update(id: string, updateClassificationDto: UpdateClassificationDto) {
+    return this.vendorClassificationRepository.update(
+      id,
+      updateClassificationDto,
+    );
   }
 
   remove(id: string) {
@@ -51,6 +54,9 @@ export class ClassificationService {
       await this.vendorClassificationRepository.findAndCount({
         skip: offset,
         take: pageSize,
+        relations: {
+          parentClassification: true,
+        },
       });
 
     const totalPages = Math.ceil(total / pageSize);
