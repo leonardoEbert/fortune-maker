@@ -4,6 +4,7 @@ import { UpdateClassificationDto } from './dto/update-classification.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VendorClassification } from '@/vendor/classification/entities/vendor-classification.entity';
 import { Repository } from 'typeorm';
+import { PaginatedResponse } from '@/common/types/paginated-response.type';
 
 @Injectable()
 export class ClassificationService {
@@ -43,9 +44,25 @@ export class ClassificationService {
     return `This action removes a #${id} classification`;
   }
 
-  count() {
-    return this.vendorClassificationRepository.count({
-      where: { isActive: true, deletedAt: null },
-    });
+  async getByPage(page: number, pageSize: number) {
+    const offset = (page - 1) * pageSize;
+
+    const [classifications, total] =
+      await this.vendorClassificationRepository.findAndCount({
+        skip: offset,
+        take: pageSize,
+      });
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    const paginatedVendorClassifications: PaginatedResponse<VendorClassification> =
+      {
+        data: classifications,
+        total,
+        page,
+        totalPages,
+      };
+
+    return paginatedVendorClassifications;
   }
 }

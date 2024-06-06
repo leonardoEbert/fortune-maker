@@ -44,17 +44,11 @@ export class ClassificationController {
     return this.classificationService.remove(+id);
   }
 
-  @Get('count')
-  count() {
-    return this.classificationService.count();
-  }
-
   @Get('paginated')
   paginated(
     @Query('currentPage') page: number,
     @Query('pageSize') pageSize: number,
   ) {
-    console.log(page);
-    console.log(pageSize);
+    return this.classificationService.getByPage(page, pageSize);
   }
 }
