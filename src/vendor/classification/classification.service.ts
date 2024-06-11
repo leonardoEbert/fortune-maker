@@ -3,7 +3,7 @@ import { CreateClassificationDto } from './dto/create-classification.dto';
 import { UpdateClassificationDto } from './dto/update-classification.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VendorClassification } from '@/vendor/classification/entities/vendor-classification.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { PaginatedResponse } from '@/common/types/paginated-response.type';
 
 @Injectable()
@@ -47,8 +47,21 @@ export class ClassificationService {
     return this.vendorClassificationRepository.softDelete(id);
   }
 
-  async getByPage(page: number, pageSize: number) {
+  async getByPage(
+    page: number,
+    pageSize: number,
+    searchField: string,
+    searchTerm: string,
+  ) {
     const offset = (page - 1) * pageSize;
+
+    let conditions = {};
+
+    if (searchTerm !== '') {
+      conditions = {
+        [searchField]: ILike(`%${searchTerm}%`),
+      };
+    }
 
     const [classifications, total] =
       await this.vendorClassificationRepository.findAndCount({
@@ -56,6 +69,9 @@ export class ClassificationService {
         take: pageSize,
         relations: {
           parentClassification: true,
+        },
+        where: {
+          ...conditions,
         },
       });
 

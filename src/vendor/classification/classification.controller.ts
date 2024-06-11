@@ -48,7 +48,14 @@ export class ClassificationController {
   paginated(
     @Query('currentPage') page: number,
     @Query('pageSize') pageSize: number,
+    @Query('searchField') searchField: string,
+    @Query('searchTerm') searchTerm: string,
   ) {
-    return this.classificationService.getByPage(page, pageSize);
+    return this.classificationService.getByPage(
+      page,
+      pageSize,
+      searchField,
+      searchTerm,
+    );
   }
 }
