@@ -18,10 +18,12 @@ export class ClassificationService {
       ...createClassificationDto,
     });
 
-    newVendorClassification.parentClassification =
-      await this.vendorClassificationRepository.findOne({
-        where: { id: createClassificationDto.parentClassification.id },
-      });
+    if (newVendorClassification.parentClassification) {
+      newVendorClassification.parentClassification =
+        await this.vendorClassificationRepository.findOne({
+          where: { id: createClassificationDto.parentClassification.id },
+        });
+    }
 
     return await this.vendorClassificationRepository.save(
       newVendorClassification,
