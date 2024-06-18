@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { VendorService } from './vendor.service';
 import { CreateVendorDto } from './dto/create-vendor.dto';
 import { UpdateVendorDto } from './dto/update-vendor.dto';
@@ -31,4 +40,12 @@ export class VendorController {
   remove(@Param('id') id: string) {
     return this.vendorService.remove(+id);
   }
+
+  @Get('paginated')
+  paginated(
+    @Query('currentPage') page: number,
+    @Query('pageSize') pageSize: number,
+    @Query('searchField') searchField: string,
+    @Query('searchTerm') searchTerm: string,
+  ) {}
 }
