@@ -28,17 +28,17 @@ export class VendorController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.vendorService.findOne(+id);
+    return this.vendorService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVendorDto: UpdateVendorDto) {
-    return this.vendorService.update(+id, updateVendorDto);
+    return this.vendorService.update(id, updateVendorDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.vendorService.remove(+id);
+    return this.vendorService.remove(id);
   }
 
   @Get('paginated')
@@ -47,5 +47,12 @@ export class VendorController {
     @Query('pageSize') pageSize: number,
     @Query('searchField') searchField: string,
     @Query('searchTerm') searchTerm: string,
-  ) {}
+  ) {
+    return this.vendorService.getByPage(
+      page,
+      pageSize,
+      searchField,
+      searchTerm,
+    );
+  }
 }

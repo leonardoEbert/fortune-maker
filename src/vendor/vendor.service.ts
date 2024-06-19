@@ -13,24 +13,30 @@ export class VendorService {
     private readonly vendorRepository: Repository<Vendor>,
   ) {}
 
-  create(createVendorDto: CreateVendorDto) {
-    return 'This action adds a new vendor';
+  async create(createVendorDto: CreateVendorDto) {
+    const newVendor = new Vendor({
+      ...createVendorDto,
+    });
+
+    return await this.vendorRepository.save(newVendor);
   }
 
   findAll() {
-    return `This action returns all vendor`;
+    return this.vendorRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vendor`;
+  findOne(id: string) {
+    return this.vendorRepository.findOne({
+      where: { id },
+    });
   }
 
-  update(id: number, updateVendorDto: UpdateVendorDto) {
-    return `This action updates a #${id} vendor`;
+  update(id: string, updateVendorDto: UpdateVendorDto) {
+    return this.vendorRepository.update(id, updateVendorDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} vendor`;
+  remove(id: string) {
+    return this.vendorRepository.softDelete(id);
   }
 
   async getByPage(

@@ -9,9 +9,10 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { VendorClassification } from '@/vendor/classification/entities/vendor-classification.entity';
+import { AbstractEntity } from '@/database/abstract.entity';
 
 @Entity()
-export class Vendor {
+export class Vendor extends AbstractEntity<Vendor> {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
