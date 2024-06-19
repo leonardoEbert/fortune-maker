@@ -17,7 +17,14 @@ export class Vendor extends AbstractEntity<Vendor> {
   id: string;
 
   @ManyToMany(() => VendorClassification)
-  @JoinTable()
+  @JoinTable({
+    name: 'vendor_classifications_vendor',
+    joinColumn: { name: 'vendor_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'vendor_classification_id',
+      referencedColumnName: 'id',
+    },
+  })
   classifications: VendorClassification[];
 
   @Column({
