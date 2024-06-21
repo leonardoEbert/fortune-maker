@@ -3,7 +3,7 @@ import { CreateClassificationDto } from './dto/create-classification.dto';
 import { UpdateClassificationDto } from './dto/update-classification.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VendorClassification } from '@/vendor/classification/entities/vendor-classification.entity';
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { PaginatedResponse } from '@/common/types/paginated-response.type';
 
 @Injectable()
@@ -88,5 +88,20 @@ export class ClassificationService {
       };
 
     return paginatedVendorClassifications;
+  }
+
+  async findByIds(ids: string[]) {
+    let classificationsList = [];
+    const classifications = await this.vendorClassificationRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
+
+    if (classifications.length > 0) {
+      classificationsList = classifications;
+    }
+
+    return classificationsList;
   }
 }

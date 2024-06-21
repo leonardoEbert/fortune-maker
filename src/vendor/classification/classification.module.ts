@@ -8,5 +8,6 @@ import { VendorClassification } from '@/vendor/classification/entities/vendor-cl
   imports: [TypeOrmModule.forFeature([VendorClassification])],
   controllers: [ClassificationController],
   providers: [ClassificationService],
+  exports: [ClassificationService],
 })
 export class ClassificationModule {}

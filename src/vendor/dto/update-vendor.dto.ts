@@ -6,5 +6,5 @@ export class UpdateVendorDto extends PartialType(CreateVendorDto) {
   name: string;
   description: string;
   isActive: boolean;
-  classifications?: VendorClassification[];
+  classifications?: string[];
 }

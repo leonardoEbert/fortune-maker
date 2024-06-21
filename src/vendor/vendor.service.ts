@@ -5,18 +5,26 @@ import { ILike, Repository } from 'typeorm';
 import { PaginatedResponse } from '@/common/types/paginated-response.type';
 import { Vendor } from '@/vendor/entities/vendor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ClassificationService } from '@/vendor/classification/classification.service';
 
 @Injectable()
 export class VendorService {
   constructor(
     @InjectRepository(Vendor)
     private readonly vendorRepository: Repository<Vendor>,
+    private readonly classificationService: ClassificationService,
   ) {}
 
   async create(createVendorDto: CreateVendorDto) {
-    const newVendor = new Vendor({
-      ...createVendorDto,
-    });
+    const newVendor = new Vendor({});
+
+    newVendor.name = createVendorDto.name;
+    newVendor.description = createVendorDto.description;
+    newVendor.isActive = createVendorDto.isActive;
+
+    newVendor.classifications = await this.classificationService.findByIds(
+      createVendorDto.classifications,
+    );
 
     return await this.vendorRepository.save(newVendor);
   }
