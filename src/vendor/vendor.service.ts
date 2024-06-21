@@ -39,8 +39,18 @@ export class VendorService {
     });
   }
 
-  update(id: string, updateVendorDto: UpdateVendorDto) {
-    return this.vendorRepository.update(id, updateVendorDto);
+  async update(id: string, updateVendorDto: UpdateVendorDto) {
+    const vendorToUpdate = new Vendor({});
+
+    vendorToUpdate.classifications = await this.classificationService.findByIds(
+      updateVendorDto.classifications,
+    );
+
+    delete updateVendorDto.classifications;
+
+    Object.assign(vendorToUpdate, updateVendorDto);
+
+    return this.vendorRepository.update(id, vendorToUpdate);
   }
 
   remove(id: string) {
